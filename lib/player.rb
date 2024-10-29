@@ -15,12 +15,12 @@ class Player
   def ask_move
     row = nil
     until (1..3).to_a.include?(row)
-      puts "What row does player #{@player_id} select?"
+      puts "What row does #{@name} select?"
       row = gets.chomp.to_i
     end
     column = nil
     until (1..3).to_a.include?(column)
-      puts "What column does player #{@player_id} select?"
+      puts "What column does #{@name} select?"
       column = gets.chomp.to_i
     end
     [row, column, @char]
@@ -29,7 +29,7 @@ class Player
   private
 
   def grab_player_character
-    puts "What character does player #{@player_id} want to use?"
+    puts "What character does #{@name} want to use?"
     char = nil
     loop do
       char = gets.chomp
