@@ -3,7 +3,7 @@
 # Game class stores and updates the state of a tic-tac-toe game
 class Game
   def initialize(player1, player2)
-    @game_state = []
+    @game_state = [[nil, nil, nil], [nil, nil, nil], [nil, nil, nil]]
     @player1 = player1
     @player2 = player2
   end
@@ -24,7 +24,7 @@ class Game
   end
 
   def update_game(move)
-    @game_state.push(move)
+    @game_state[move[0] - 1][move[1] - 1] = move[2]
   end
 
   def display
