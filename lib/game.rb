@@ -39,19 +39,17 @@ class Game
   end
 
   def check_row(row, player_char)
-    game_over = true
     @game_state[row].each do |char|
-      game_over = false unless char == player_char
+      return false unless char == player_char
     end
-    game_over
+    true
   end
 
   def check_col(col, player_char)
-    game_over = true
     @game_state.map { |arr| arr[col] }.each do |char|
-      game_over = false unless char == player_char
+      return false unless char == player_char
     end
-    game_over
+    true
   end
 
   def check_diagonals(move, sym)
@@ -69,19 +67,17 @@ class Game
   end
 
   def check_left_diag(char)
-    game_over = true
     (0..2).each do |i|
-      game_over = false unless @game_state[i][i] == char
+      return false unless @game_state[i][i] == char
     end
-    game_over
+    true
   end
 
   def check_right_diag(char)
-    game_over = true
     (0..2).each do |i|
-      game_over = false unless @game_state[i][2 - i] == char
+      return false unless @game_state[i][2 - i] == char
     end
-    game_over
+    true
   end
 
   # check if move is legal
