@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
+require_relative("gameover_checker")
+
 # Game class stores and updates the state of a tic-tac-toe game
-class Game
+class GameEngine
   def initialize(player1, player2)
     @game_state = [[nil, nil, nil], [nil, nil, nil], [nil, nil, nil]]
     @player1 = player1
     @player2 = player2
     @player_to_move = @player1
+    @gameover_checker = GameoverChecker.new
   end
 
   def play_game
@@ -39,56 +42,7 @@ class Game
     update_game(player_move)
     @player_to_move = @player_to_move == @player1 ? @player2 : @player1
     display(@game_state)
-    game_over?(player_move)
-  end
-
-  def game_over?(move)
-    row = move[0] - 1
-    col = move[1] - 1
-    sym = move[2]
-    check_row(row, sym) || check_col(col, sym) || check_diagonals([row, col], sym)
-  end
-
-  def check_row(row, player_char)
-    @game_state[row].each do |char|
-      return false unless char == player_char
-    end
-    true
-  end
-
-  def check_col(col, player_char)
-    @game_state.map { |arr| arr[col] }.each do |char|
-      return false unless char == player_char
-    end
-    true
-  end
-
-  def check_diagonals(move, sym)
-    if move == [1, 1] && check_both_diags(sym)
-      true
-    else
-      (move[0] == move[1] && check_left_diag(sym)) || ([[0, 2], [2, 0]].include?(move) && check_right_diag(sym))
-    end
-  end
-
-  def check_both_diags(char)
-    return true if check_left_diag(char)
-
-    check_right_diag(char)
-  end
-
-  def check_left_diag(char)
-    (0..2).each do |i|
-      return false unless @game_state[i][i] == char
-    end
-    true
-  end
-
-  def check_right_diag(char)
-    (0..2).each do |i|
-      return false unless @game_state[i][2 - i] == char
-    end
-    true
+    @gameover_checker.game_over?(player_move, @game_state)
   end
 
   def update_game(move)

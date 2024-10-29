@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative("lib/game")
+require_relative("lib/game_engine")
 require_relative("lib/player")
 
 # create two users
@@ -8,5 +8,5 @@ require_relative("lib/player")
 player1 = Player.new
 player2 = Player.new
 
-game = Game.new(player1, player2)
+game = GameEngine.new(player1, player2)
 game.play_game
