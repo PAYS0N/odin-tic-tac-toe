@@ -24,7 +24,13 @@ class Game
   end
 
   def play_round
-    player_move = @player_to_move.ask_move
+    player_move = nil
+    loop do
+      player_move = @player_to_move.ask_move
+      break if @game_state[player_move[0] - 1][player_move[1] - 1].nil?
+
+      puts "Invalid move."
+    end
     update_game(player_move)
     @player_to_move = @player_to_move == @player1 ? @player2 : @player1
     display(@game_state)

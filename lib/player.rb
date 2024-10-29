@@ -12,12 +12,17 @@ class Player
     @char = grab_player_character
   end
 
-  # add input validation
   def ask_move
-    puts "What row does player #{@player_id} select?"
-    row = gets.chomp.to_i
-    puts "What column does player #{@player_id} select?"
-    column = gets.chomp.to_i
+    row = nil
+    until (1..3).to_a.include?(row)
+      puts "What row does player #{@player_id} select?"
+      row = gets.chomp.to_i
+    end
+    column = nil
+    until (1..3).to_a.include?(column)
+      puts "What column does player #{@player_id} select?"
+      column = gets.chomp.to_i
+    end
     [row, column, @char]
   end
 
@@ -26,11 +31,25 @@ class Player
   # add input validation
   def grab_player_character
     puts "What character does player #{@player_id} want to use?"
-    gets.chomp
+    char = nil
+    loop do
+      char = gets.chomp
+      break if !char.nil? && char.length == 1
+
+      puts "Invalid, please enter a character."
+    end
+    char
   end
 
   def grab_name
     puts "What is the name of player #{@player_id}?"
-    gets.chomp
+    name = nil
+    loop do
+      name = gets.chomp
+      break unless name == ""
+
+      puts "Please enter a name."
+    end
+    name
   end
 end
