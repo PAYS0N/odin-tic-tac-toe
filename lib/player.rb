@@ -26,6 +26,10 @@ class Player
     [row, column, @char]
   end
 
+  def wins
+    puts "#{@name} wins!"
+  end
+
   private
 
   def grab_player_character

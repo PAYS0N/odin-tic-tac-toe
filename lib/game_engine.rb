@@ -20,7 +20,7 @@ class GameEngine
       game_over = play_round
       rounds += 1
     end
-    end_game
+    end_game(rounds, @player_to_move)
   end
 
   private
@@ -73,7 +73,13 @@ class GameEngine
     puts "|"
   end
 
-  def end_game
-    puts "Game Over"
+  def end_game(rounds, player)
+    print "Game Over. "
+    if rounds == 9
+      puts "It was a tie!"
+    else
+      player = player == @player1 ? @player2 : @player1
+      player.wins
+    end
   end
 end
