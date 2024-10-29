@@ -28,7 +28,6 @@ class Player
 
   private
 
-  # add input validation
   def grab_player_character
     puts "What character does player #{@player_id} want to use?"
     char = nil

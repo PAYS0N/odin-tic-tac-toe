@@ -11,7 +11,12 @@ class Game
 
   def play_game
     explain_game
-    game_over = play_round until game_over
+    rounds = 1
+    game_over = play_round
+    until game_over || rounds == 9
+      game_over = play_round
+      rounds += 1
+    end
     end_game
   end
 
@@ -86,7 +91,6 @@ class Game
     true
   end
 
-  # check if move is legal
   def update_game(move)
     @game_state[move[0] - 1][move[1] - 1] = move[2]
   end
