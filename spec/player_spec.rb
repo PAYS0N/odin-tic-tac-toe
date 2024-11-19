@@ -63,8 +63,12 @@ describe Player do
         allow(subject).to receive(:gets).and_return("2")
       end
 
-      it "asks once and returns the same number" do
+      it "asks once for input" do
         expect(subject).to receive(:puts)
+        player_row.ask_row
+      end
+
+      it "returns the same number" do
         result = player_row.ask_row
         expect(result).to eq(2)
       end
@@ -76,8 +80,12 @@ describe Player do
         allow(subject).to receive(:gets).and_return("4", "3")
       end
 
-      it "asks twice and returns the same number" do
+      it "asks twice" do
         expect(subject).to receive(:puts).twice
+        player_row.ask_row
+      end
+
+      it "returns the same number" do
         result = player_row.ask_row
         expect(result).to eq(3)
       end
@@ -89,8 +97,12 @@ describe Player do
         allow(subject).to receive(:gets).and_return("4", "43", "efv", "a", "cerlijib", "\n", "", "1")
       end
 
-      it "asks n+1 times and returns the final number" do
+      it "asks n+1 times" do
         expect(subject).to receive(:puts).exactly(8).times
+        player_row.ask_row
+      end
+
+      it "returns the final number" do
         result = player_row.ask_row
         expect(result).to eq(1)
       end
@@ -106,8 +118,12 @@ describe Player do
         allow(subject).to receive(:gets).and_return("3")
       end
 
-      it "asks once and returns the same number" do
+      it "asks once" do
         expect(subject).to receive(:puts)
+        player_column.ask_column
+      end
+
+      it "returns the same number" do
         result = player_column.ask_column
         expect(result).to eq(3)
       end
@@ -119,8 +135,12 @@ describe Player do
         allow(subject).to receive(:gets).and_return("2")
       end
 
-      it "asks once and returns the same number" do
+      it "asks once" do
         expect(subject).to receive(:puts)
+        player_column.ask_column
+      end
+
+      it "returns the same number" do
         result = player_column.ask_column
         expect(result).to eq(2)
       end
@@ -132,8 +152,12 @@ describe Player do
         allow(subject).to receive(:gets).and_return("4", "3")
       end
 
-      it "asks twice and returns the same number" do
+      it "asks twice" do
         expect(subject).to receive(:puts).twice
+        player_column.ask_column
+      end
+
+      it "returns the same number" do
         result = player_column.ask_column
         expect(result).to eq(3)
       end
@@ -145,8 +169,12 @@ describe Player do
         allow(subject).to receive(:gets).and_return("4", "43", "efv", "a", "cerlijib", "\n", "", "1")
       end
 
-      it "asks n+1 times and returns the final number" do
+      it "asks n+1 times" do
         expect(subject).to receive(:puts).exactly(8).times
+        player_column.ask_column
+      end
+
+      it "returns the final number" do
         result = player_column.ask_column
         expect(result).to eq(1)
       end
@@ -161,16 +189,20 @@ describe Player do
         allow(player_char).to receive(:puts)
       end
 
+      it "asks for input" do
+        expect(player_char).to receive(:puts)
+        allow(player_char).to receive(:gets).and_return("@")
+        player_char.grab_player_character
+      end
+
       it "returns the character" do
         allow(player_char).to receive(:gets).and_return("@")
-        expect(player_char).to receive(:puts)
         result = player_char.grab_player_character
         expect(result).to eq("@")
       end
 
       it "returns the character" do
         allow(player_char).to receive(:gets).and_return("X")
-        expect(player_char).to receive(:puts)
         result = player_char.grab_player_character
         expect(result).to eq("X")
       end
@@ -182,8 +214,12 @@ describe Player do
         allow(player_char).to receive(:gets).and_return("ergtgetr", "@")
       end
 
-      it "prints twice, then returns the character" do
+      it "prints twice" do
         expect(player_char).to receive(:puts).twice
+        player_char.grab_player_character
+      end
+
+      it "returns the character" do
         result = player_char.grab_player_character
         expect(result).to eq("@")
       end
@@ -195,8 +231,12 @@ describe Player do
         allow(player_char).to receive(:gets).and_return("", "\n", "123", "fvt", "☺☻", "-♠┘♀", "`l", "\\\\", "./", "@")
       end
 
-      it "prints n+1 times, then returns the character" do
+      it "prints n+1 times" do
         expect(player_char).to receive(:puts).exactly(10).times
+        player_char.grab_player_character
+      end
+
+      it "returns the character" do
         result = player_char.grab_player_character
         expect(result).to eq("@")
       end
@@ -211,16 +251,20 @@ describe Player do
         allow(player_name).to receive(:puts)
       end
 
-      it "prints query and returns name" do
+      it "prints query" do
         allow(player_name).to receive(:gets).and_return("kuerb")
         expect(player_name).to receive(:puts)
+        player_name.grab_name
+      end
+
+      it "returns the name" do
+        allow(player_name).to receive(:gets).and_return("kuerb")
         result = player_name.grab_name
         expect(result).to eq("kuerb")
       end
 
       it "returns the name" do
         allow(player_name).to receive(:gets).and_return("-12")
-        expect(player_name).to receive(:puts)
         result = player_name.grab_name
         expect(result).to eq("-12")
       end
@@ -232,8 +276,12 @@ describe Player do
         allow(player_name).to receive(:gets).and_return("", "@")
       end
 
-      it "prints twice, then returns the name" do
+      it "prints twice" do
         expect(player_name).to receive(:puts).twice
+        player_name.grab_name
+      end
+
+      it "returns the name" do
         result = player_name.grab_name
         expect(result).to eq("@")
       end
@@ -245,8 +293,12 @@ describe Player do
         allow(player_name).to receive(:gets).and_return("", "\n", " ", "\t", "Payson")
       end
 
-      it "prints n+1 times, then returns the name" do
+      it "prints n+1 times" do
         expect(player_name).to receive(:puts).exactly(5).times
+        player_name.grab_name
+      end
+
+      it "returns the name" do
         result = player_name.grab_name
         expect(result).to eq("Payson")
       end
