@@ -39,8 +39,6 @@ class Player
     puts "#{@name} wins!"
   end
 
-  private
-
   def grab_player_character
     puts "What character does #{@name} want to use?"
     char = nil
@@ -57,7 +55,7 @@ class Player
     puts "What is the name of the player?"
     name = nil
     loop do
-      name = gets.chomp
+      name = gets.strip
       break unless name == ""
 
       puts "Please enter a name."
