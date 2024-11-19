@@ -41,266 +41,139 @@ describe Player do
     end
   end
 
-  context "when asking for row number" do
-    subject(:player_row) { described_class.new }
-
-    context "when number is equal to 1 or 3" do
-      before do
-        allow(subject).to receive(:puts)
-        allow(subject).to receive(:gets).and_return("3")
-      end
-
-      it "asks once and returns the same number" do
-        expect(subject).to receive(:puts)
-        result = player_row.ask_row
-        expect(result).to eq(3)
-      end
-    end
-
-    context "when number is between 1 and 3" do
-      before do
-        allow(subject).to receive(:puts)
-        allow(subject).to receive(:gets).and_return("2")
-      end
-
-      it "asks once for input" do
-        expect(subject).to receive(:puts)
-        player_row.ask_row
-      end
-
-      it "returns the same number" do
-        result = player_row.ask_row
-        expect(result).to eq(2)
-      end
-    end
-
-    context "when number is not between 1 or 3, and then is" do
-      before do
-        allow(subject).to receive(:puts)
-        allow(subject).to receive(:gets).and_return("4", "3")
-      end
-
-      it "asks twice" do
-        expect(subject).to receive(:puts).twice
-        player_row.ask_row
-      end
-
-      it "returns the same number" do
-        result = player_row.ask_row
-        expect(result).to eq(3)
-      end
-    end
-
-    context "when number is incorrect n times, and then is correct" do
-      before do
-        allow(subject).to receive(:puts)
-        allow(subject).to receive(:gets).and_return("4", "43", "efv", "a", "cerlijib", "\n", "", "1")
-      end
-
-      it "asks n+1 times" do
-        expect(subject).to receive(:puts).exactly(8).times
-        player_row.ask_row
-      end
-
-      it "returns the final number" do
-        result = player_row.ask_row
-        expect(result).to eq(1)
-      end
-    end
-  end
-
-  context "when asking for column number" do
-    subject(:player_column) { described_class.new }
-
-    context "when number is equal to 1 or 3" do
-      before do
-        allow(subject).to receive(:puts)
-        allow(subject).to receive(:gets).and_return("3")
-      end
-
-      it "asks once" do
-        expect(subject).to receive(:puts)
-        player_column.ask_column
-      end
-
-      it "returns the same number" do
-        result = player_column.ask_column
-        expect(result).to eq(3)
-      end
-    end
-
-    context "when number is between 1 and 3" do
-      before do
-        allow(subject).to receive(:puts)
-        allow(subject).to receive(:gets).and_return("2")
-      end
-
-      it "asks once" do
-        expect(subject).to receive(:puts)
-        player_column.ask_column
-      end
-
-      it "returns the same number" do
-        result = player_column.ask_column
-        expect(result).to eq(2)
-      end
-    end
-
-    context "when number is not between 1 or 3, and then is" do
-      before do
-        allow(subject).to receive(:puts)
-        allow(subject).to receive(:gets).and_return("4", "3")
-      end
-
-      it "asks twice" do
-        expect(subject).to receive(:puts).twice
-        player_column.ask_column
-      end
-
-      it "returns the same number" do
-        result = player_column.ask_column
-        expect(result).to eq(3)
-      end
-    end
-
-    context "when number is incorrect n times, and then is correct" do
-      before do
-        allow(subject).to receive(:puts)
-        allow(subject).to receive(:gets).and_return("4", "43", "efv", "a", "cerlijib", "\n", "", "1")
-      end
-
-      it "asks n+1 times" do
-        expect(subject).to receive(:puts).exactly(8).times
-        player_column.ask_column
-      end
-
-      it "returns the final number" do
-        result = player_column.ask_column
-        expect(result).to eq(1)
-      end
-    end
-  end
-
   context "when asking for player character" do
     subject(:player_char) { described_class.new }
 
-    context "when character is valid" do
-      before do
-        allow(player_char).to receive(:puts)
-      end
-
-      it "asks for input" do
-        expect(player_char).to receive(:puts)
-        allow(player_char).to receive(:gets).and_return("@")
-        player_char.grab_player_character
-      end
-
-      it "returns the character" do
-        allow(player_char).to receive(:gets).and_return("@")
-        result = player_char.grab_player_character
-        expect(result).to eq("@")
-      end
-
-      it "returns the character" do
-        allow(player_char).to receive(:gets).and_return("X")
-        result = player_char.grab_player_character
-        expect(result).to eq("X")
-      end
+    before do
+      allow(player_char).to receive(:verify_input).and_return("A")
     end
 
-    context "when character is invalid once, then valid" do
-      before do
-        allow(player_char).to receive(:puts)
-        allow(player_char).to receive(:gets).and_return("ergtgetr", "@")
-      end
-
-      it "prints twice" do
-        expect(player_char).to receive(:puts).twice
-        player_char.grab_player_character
-      end
-
-      it "returns the character" do
-        result = player_char.grab_player_character
-        expect(result).to eq("@")
-      end
-    end
-
-    context "when character is invalid n times, then valid" do
-      before do
-        allow(player_char).to receive(:puts)
-        allow(player_char).to receive(:gets).and_return("", "\n", "123", "fvt", "☺☻", "-♠┘♀", "`l", "\\\\", "./", "@")
-      end
-
-      it "prints n+1 times" do
-        expect(player_char).to receive(:puts).exactly(10).times
-        player_char.grab_player_character
-      end
-
-      it "returns the character" do
-        result = player_char.grab_player_character
-        expect(result).to eq("@")
-      end
+    it "sends call to get verified input" do
+      expect(player_char).to receive(:verify_input)
+      player_char.grab_player_character
     end
   end
 
   context "when asking for player name" do
     subject(:player_name) { described_class.new }
 
-    context "when name is non-empty" do
-      before do
-        allow(player_name).to receive(:puts)
-      end
-
-      it "prints query" do
-        allow(player_name).to receive(:gets).and_return("kuerb")
-        expect(player_name).to receive(:puts)
-        player_name.grab_name
-      end
-
-      it "returns the name" do
-        allow(player_name).to receive(:gets).and_return("kuerb")
-        result = player_name.grab_name
-        expect(result).to eq("kuerb")
-      end
-
-      it "returns the name" do
-        allow(player_name).to receive(:gets).and_return("-12")
-        result = player_name.grab_name
-        expect(result).to eq("-12")
-      end
+    before do
+      allow(player_name).to receive(:verify_input).and_return("valid string")
     end
 
-    context "when name is empty once, then valid" do
-      before do
-        allow(player_name).to receive(:puts)
-        allow(player_name).to receive(:gets).and_return("", "@")
+    it "sends call to get verified input" do
+      expect(player_name).to receive(:verify_input)
+      player_name.grab_name
+    end
+  end
+
+  context "when validating input" do
+    subject(:player_validation) { described_class.new }
+
+    context "when no block is given" do
+      context "when input is non-empty" do
+        before do
+          allow(player_validation).to receive(:puts)
+          allow(player_validation).to receive(:gets).and_return("string\n")
+        end
+
+        it "asks for input" do
+          expect(player_validation).to receive(:puts)
+          player_validation.verify_input("get input")
+        end
+
+        it "returns the input" do
+          result = player_validation.verify_input("get input")
+          expect(result).to eq("string")
+        end
       end
 
-      it "prints twice" do
-        expect(player_name).to receive(:puts).twice
-        player_name.grab_name
+      context "when empty once, and then valid" do
+        before do
+          allow(player_validation).to receive(:puts)
+          allow(player_validation).to receive(:gets).and_return("", "string")
+        end
+
+        it "prints twice" do
+          expect(player_validation).to receive(:puts).twice
+          player_validation.verify_input("get input")
+        end
+
+        it "returns the input" do
+          result = player_validation.verify_input("get input")
+          expect(result).to eq("string")
+        end
       end
 
-      it "returns the name" do
-        result = player_name.grab_name
-        expect(result).to eq("@")
+      context "when input is invalid n times, then valid" do
+        before do
+          allow(player_validation).to receive(:puts)
+          allow(player_validation).to receive(:gets).and_return("\n", "", "", "", "", "string\n")
+        end
+
+        it "prints n+1 times" do
+          expect(player_validation).to receive(:puts).exactly(6).times
+          player_validation.verify_input("get input")
+        end
+
+        it "returns the input" do
+          result = player_validation.verify_input("get input")
+          expect(result).to eq("string")
+        end
       end
     end
+    context "when block is not empty" do
+      let(:preprocess) { ->(str) { str.chomp.to_i } }
+      let(:test) { ->(num) { (1..3).include?(num) } }
+      context "when input passes block" do
+        before do
+          allow(player_validation).to receive(:puts)
+          allow(player_validation).to receive(:gets).and_return("2\n")
+        end
 
-    context "when name is invalid n times, then valid" do
-      before do
-        allow(player_name).to receive(:puts)
-        allow(player_name).to receive(:gets).and_return("", "\n", " ", "\t", "Payson")
+        it "asks for input" do
+          expect(player_validation).to receive(:puts)
+          player_validation.verify_input("get input message", "error message", preprocess, test)
+        end
+
+        it "returns the input" do
+          result = player_validation.verify_input("get input message", "error message", preprocess, test)
+          expect(result).to eq(2)
+        end
       end
 
-      it "prints n+1 times" do
-        expect(player_name).to receive(:puts).exactly(5).times
-        player_name.grab_name
+      context "when input fails once, then is valid" do
+        before do
+          allow(player_validation).to receive(:puts)
+          allow(player_validation).to receive(:gets).and_return("abc", "3")
+        end
+
+        it "prints twice" do
+          expect(player_validation).to receive(:puts).twice
+          player_validation.verify_input("get input message", "error message", preprocess, test)
+        end
+
+        it "returns the input" do
+          result = player_validation.verify_input("get input message", "error message", preprocess, test)
+          expect(result).to eq(3)
+        end
       end
 
-      it "returns the name" do
-        result = player_name.grab_name
-        expect(result).to eq("Payson")
+      context "when input is invalid n times, then valid" do
+        before do
+          allow(player_validation).to receive(:puts)
+          allow(player_validation).to receive(:gets).and_return("123", "abc", "\n", "  ", "-1", "1")
+        end
+
+        it "prints n+1 times" do
+          expect(player_validation).to receive(:puts).exactly(6).times
+          player_validation.verify_input("get input message", "error message", preprocess, test)
+        end
+
+        it "returns the input" do
+          result = player_validation.verify_input("get input message", "error message", preprocess, test)
+          expect(result).to eq(1)
+        end
       end
     end
   end

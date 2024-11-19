@@ -18,21 +18,19 @@ class Player
   end
 
   def ask_row
-    row = nil
-    until (1..3).to_a.include?(row)
-      puts "What row does #{@name} select?"
-      row = gets.chomp.to_i
-    end
-    row
+    prompt = "What row does #{@name} select?"
+    error = "Please enter 1 through 3"
+    prep = ->(input) { input.chomp.to_i }
+    test = ->(num) { (1..3).to_a.include?(num) }
+    verify_input(prompt, error, prep, test)
   end
 
   def ask_column
-    column = nil
-    until (1..3).to_a.include?(column)
-      puts "What column does #{@name} select?"
-      column = gets.chomp.to_i
-    end
-    column
+    prompt = "What column does #{@name} select?"
+    error = "Please enter 1 through 3"
+    prep = ->(input) { input.chomp.to_i }
+    test = ->(num) { (1..3).to_a.include?(num) }
+    verify_input(prompt, error, prep, test)
   end
 
   def wins
@@ -40,26 +38,30 @@ class Player
   end
 
   def grab_player_character
-    puts "What character does #{@name} want to use?"
-    char = nil
-    loop do
-      char = gets.chomp
-      break if !char.nil? && char.length == 1
-
-      puts "Invalid, please enter a character."
-    end
-    char
+    prompt = "What character does #{@name} want to use?"
+    error = "Please enter a single character."
+    prep = ->(char) { char.strip }
+    test = ->(char) { !char.nil? && char.length == 1 }
+    verify_input(prompt, error, prep, test)
   end
 
   def grab_name
-    puts "What is the name of the player?"
-    name = nil
-    loop do
-      name = gets.strip
-      break unless name == ""
+    prompt = "What is the name of the player?"
+    error = "Please enter a name."
+    prep = ->(name) { name.strip }
+    test = ->(name) { !name.empty? }
+    verify_input(prompt, error, prep, test)
+  end
 
-      puts "Please enter a name."
+  # pass text and a block to ask user for input that when the block returns true, the input is validated. returns valid
+  # input as inputted string
+  def verify_input(prompt, error_msg = "Invalid, try again.", prep_proc = ->(x) { x.chomp }, test = ->(val) { !val.empty? }) # rubocop:disable Layout/LineLength
+    puts prompt
+    input = prep_proc.call(gets)
+    until test.call(input)
+      puts error_msg
+      input = prep_proc.call(gets)
     end
-    name
+    input
   end
 end
