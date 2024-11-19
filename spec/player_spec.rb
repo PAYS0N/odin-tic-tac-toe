@@ -3,25 +3,22 @@
 require_relative("../lib/player")
 
 describe Player do
-  # no idea how to test this well, did a lot of research and conclusion is don't do this but nothing else works
-  context "when a player is created" do
+  context "on player startup" do
+    subject(:new_player) { described_class.new }
+
     before do
-      allow_any_instance_of(described_class).to receive(:grab_name)
-      allow_any_instance_of(described_class).to receive(:grab_player_character)
+      allow(new_player).to receive(:grab_name)
+      allow(new_player).to receive(:grab_player_character)
     end
 
-    it "calls function to get name" do
-      expect_any_instance_of(described_class).to receive(:grab_name)
-      player = described_class.new
+    it "sends call to get name" do
+      expect(new_player).to receive(:grab_name)
+      new_player.startup
     end
 
-    it "calls function to get character" do
-      expect_any_instance_of(described_class).to receive(:grab_player_character)
-      player = described_class.new
-    end
-
-    it "increments total number of players" do
-      expect
+    it "sends call to get character" do
+      expect(new_player).to receive(:grab_player_character)
+      new_player.startup
     end
   end
 end
