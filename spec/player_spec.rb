@@ -21,4 +21,23 @@ describe Player do
       new_player.startup
     end
   end
+
+  context "when asking for a move" do
+    subject(:player_moving) { described_class.new }
+
+    before do
+      allow(player_moving).to receive(:ask_row)
+      allow(player_moving).to receive(:ask_column)
+    end
+
+    it "sends call to get name" do
+      expect(player_moving).to receive(:ask_row)
+      player_moving.ask_move
+    end
+
+    it "sends call to get character" do
+      expect(player_moving).to receive(:ask_column)
+      player_moving.ask_move
+    end
+  end
 end

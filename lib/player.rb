@@ -12,17 +12,27 @@ class Player
   end
 
   def ask_move
+    row = ask_row
+    column = ask_column
+    [row, column, @char]
+  end
+
+  def ask_row
     row = nil
     until (1..3).to_a.include?(row)
       puts "What row does #{@name} select?"
       row = gets.chomp.to_i
     end
+    row
+  end
+
+  def ask_column
     column = nil
     until (1..3).to_a.include?(column)
       puts "What column does #{@name} select?"
       column = gets.chomp.to_i
     end
-    [row, column, @char]
+    column
   end
 
   def wins
