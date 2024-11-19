@@ -8,6 +8,9 @@ class Player
     @score = 0
     @@num_of_players += 1
     @player_id = @@num_of_players
+  end
+
+  def startup
     @name = grab_name
     @char = grab_player_character
   end
