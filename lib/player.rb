@@ -2,12 +2,8 @@
 
 # Player class stores data about a tic-tac-toe player
 class Player
-  @@num_of_players = 0
-
   def initialize
     @score = 0
-    @@num_of_players += 1
-    @player_id = @@num_of_players
   end
 
   def startup
@@ -48,7 +44,7 @@ class Player
   end
 
   def grab_name
-    puts "What is the name of player #{@player_id}?"
+    puts "What is the name of the player?"
     name = nil
     loop do
       name = gets.chomp
