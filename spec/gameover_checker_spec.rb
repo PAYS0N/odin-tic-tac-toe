@@ -126,6 +126,28 @@ describe GameoverChecker do
         expect(gameover).to_not receive(:check_right_diag)
         gameover.check_diagonals([1, 1], "@")
       end
+
+      context "when check passes" do
+        before do
+          allow(gameover).to receive(:check_both_diags).and_return(true)
+        end
+
+        it "returns true" do
+          result = gameover.check_diagonals([1, 1], "@")
+          expect(result).to be_truthy
+        end
+      end
+
+      context "when check fails" do
+        before do
+          allow(gameover).to receive(:check_both_diags).and_return(false)
+        end
+
+        it "returns false" do
+          result = gameover.check_diagonals([1, 1], "@")
+          expect(result).to be_falsy
+        end
+      end
     end
   end
 end

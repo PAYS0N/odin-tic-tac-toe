@@ -25,8 +25,8 @@ class GameoverChecker
   end
 
   def check_diagonals(move, sym)
-    if move == [1, 1] && check_both_diags(sym)
-      true
+    if move == [1, 1]
+      check_both_diags(sym)
     else
       (move[0] == move[1] && check_left_diag(sym)) || ([[0, 2], [2, 0]].include?(move) && check_right_diag(sym))
     end
