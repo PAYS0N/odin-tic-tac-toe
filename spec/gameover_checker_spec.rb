@@ -63,4 +63,52 @@ describe GameoverChecker do
       end
     end
   end
+
+  context "#check_row" do
+    context "when row is all the passed char" do
+      before do
+        gameover.instance_variable_set(:@game_state, [[], [], ["@", "@", "@"]])
+      end
+
+      it "return true" do
+        result = gameover.check_row(2, "@")
+        expect(result).to be_truthy
+      end
+    end
+
+    context "when row has a different char" do
+      before do
+        gameover.instance_variable_set(:@game_state, [[], [], ["@", "@", "!"]])
+      end
+
+      it "return false" do
+        result = gameover.check_row(2, "@")
+        expect(result).to be_falsy
+      end
+    end
+  end
+
+  context "#check_col" do
+    context "when col is all the passed char" do
+      before do
+        gameover.instance_variable_set(:@game_state, [["@"], ["@"], ["@"]])
+      end
+
+      it "return true" do
+        result = gameover.check_col(0, "@")
+        expect(result).to be_truthy
+      end
+    end
+
+    context "when col has a different char" do
+      before do
+        gameover.instance_variable_set(:@game_state, [["@"], ["@"], ["!"]])
+      end
+
+      it "return false" do
+        result = gameover.check_col(0, "@")
+        expect(result).to be_falsy
+      end
+    end
+  end
 end

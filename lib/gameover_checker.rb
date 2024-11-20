@@ -10,8 +10,6 @@ class GameoverChecker
     check_row(row, sym) || check_col(col, sym) || check_diagonals([row, col], sym)
   end
 
-  private
-
   def check_row(row, player_char)
     @game_state[row].each do |char|
       return false unless char == player_char
