@@ -111,4 +111,21 @@ describe GameoverChecker do
       end
     end
   end
+
+  context "#check_diagonals" do
+    context "when move is center square" do
+      before do
+        allow(gameover).to receive(:check_both_diags)
+        allow(gameover).to receive(:check_left_diag)
+        allow(gameover).to receive(:check_right_diag)
+      end
+
+      it "sends call to check both diagonals" do
+        expect(gameover).to receive(:check_both_diags)
+        expect(gameover).to_not receive(:check_left_diag)
+        expect(gameover).to_not receive(:check_right_diag)
+        gameover.check_diagonals([1, 1], "@")
+      end
+    end
+  end
 end
