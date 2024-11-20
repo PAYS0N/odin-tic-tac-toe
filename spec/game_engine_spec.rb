@@ -131,4 +131,79 @@ describe GameEngine do
       game.play_round
     end
   end
+
+  context "#grab_move" do
+    before do
+      game.instance_variable_set(:@player_to_move, player1)
+    end
+
+    context "when input is valid" do
+      before do
+        allow(game).to receive(:puts)
+        allow(player1).to receive(:ask_move).and_return([1, 1])
+        game.instance_variable_set(:@game_state, [[nil]])
+      end
+
+      it "asks for input" do
+        expect(player1).to receive(:ask_move)
+        game.grab_move
+      end
+
+      it "doesn't error" do
+        expect(game).to_not receive(:puts)
+        game.grab_move
+      end
+
+      it "returns the input" do
+        result = game.grab_move
+        expect(result).to eq([1, 1])
+      end
+    end
+
+    context "when input is invalid, then valid" do
+      before do
+        allow(game).to receive(:puts)
+        allow(player1).to receive(:ask_move).and_return([1, 2], [1, 1])
+        game.instance_variable_set(:@game_state, [[nil, 1]])
+      end
+
+      it "asks for input twice" do
+        expect(player1).to receive(:ask_move).twice
+        game.grab_move
+      end
+
+      it "errors once" do
+        expect(game).to receive(:puts)
+        game.grab_move
+      end
+
+      it "returns the valid input" do
+        result = game.grab_move
+        expect(result).to eq([1, 1])
+      end
+    end
+
+    context "when input is invalid n times, then valid" do
+      before do
+        allow(game).to receive(:puts)
+        allow(player1).to receive(:ask_move).and_return([1, 2], [1, 2], [1, 2], [1, 2], [1, 1])
+        game.instance_variable_set(:@game_state, [[nil, 1]])
+      end
+
+      it "asks for input n times" do
+        expect(player1).to receive(:ask_move).exactly(5).times
+        game.grab_move
+      end
+
+      it "errors n-1 times" do
+        expect(game).to receive(:puts).exactly(4).times
+        game.grab_move
+      end
+
+      it "returns the valid input" do
+        result = game.grab_move
+        expect(result).to eq([1, 1])
+      end
+    end
+  end
 end
