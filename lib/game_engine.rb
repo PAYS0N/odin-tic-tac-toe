@@ -23,15 +23,15 @@ class GameEngine
     end_game(@player_to_move)
   end
 
-  private
-
-  def explain_game
-    puts "On your turn, enter the row and column you want to select. For example, if\n"
-    puts "you want to select the example cell below, you would enter 3 and then 2."
-    display([[nil, nil, nil], [nil, nil, nil], [nil, "X", nil]])
+  def play_round
+    player_move = grab_move
+    update_game(player_move)
+    @player_to_move = @player_to_move == @player1 ? @player2 : @player1
+    display(@game_state)
+    @winner = @gameover_checker.game_over?(player_move, @game_state)
   end
 
-  def play_round
+  def grab_move
     player_move = nil
     loop do
       player_move = @player_to_move.ask_move
@@ -39,14 +39,29 @@ class GameEngine
 
       puts "Invalid move."
     end
-    update_game(player_move)
-    @player_to_move = @player_to_move == @player1 ? @player2 : @player1
-    display(@game_state)
-    @winner = @gameover_checker.game_over?(player_move, @game_state)
+    player_move
   end
 
   def update_game(move)
     @game_state[move[0] - 1][move[1] - 1] = move[2]
+  end
+
+  def end_game(player)
+    print "Game Over. "
+    if @winner
+      player = player == @player1 ? @player2 : @player1
+      player.wins
+    else
+      puts "It was a tie!"
+    end
+  end
+
+  private
+
+  def explain_game
+    puts "On your turn, enter the row and column you want to select. For example, if\n"
+    puts "you want to select the example cell below, you would enter 3 and then 2."
+    display([[nil, nil, nil], [nil, nil, nil], [nil, "X", nil]])
   end
 
   def display(game_state)
@@ -71,15 +86,5 @@ class GameEngine
       end
     end
     puts "|"
-  end
-
-  def end_game(player)
-    print "Game Over. "
-    if @winner
-      player = player == @player1 ? @player2 : @player1
-      player.wins
-    else
-      puts "It was a tie!"
-    end
   end
 end
