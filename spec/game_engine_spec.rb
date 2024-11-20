@@ -206,4 +206,18 @@ describe GameEngine do
       end
     end
   end
+  context "#end_game" do
+    context "when someone won" do
+      before do
+        game.instance_variable_set(:@winner, true)
+        allow(player2).to receive(:wins)
+        allow(game).to receive(:print)
+      end
+
+      it "calls win on non-passed player" do
+        expect(player2).to receive(:wins)
+        game.end_game(player1)
+      end
+    end
+  end
 end

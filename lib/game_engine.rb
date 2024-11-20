@@ -42,10 +42,6 @@ class GameEngine
     player_move
   end
 
-  def update_game(move)
-    @game_state[move[0] - 1][move[1] - 1] = move[2]
-  end
-
   def end_game(player)
     print "Game Over. "
     if @winner
@@ -57,6 +53,10 @@ class GameEngine
   end
 
   private
+
+  def update_game(move)
+    @game_state[move[0] - 1][move[1] - 1] = move[2]
+  end
 
   def explain_game
     puts "On your turn, enter the row and column you want to select. For example, if\n"
