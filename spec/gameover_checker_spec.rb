@@ -149,5 +149,81 @@ describe GameoverChecker do
         end
       end
     end
+
+    context "when move is not center square" do
+      context "when move is on left diagonal" do
+        before do
+          allow(gameover).to receive(:check_both_diags)
+          allow(gameover).to receive(:check_left_diag)
+          allow(gameover).to receive(:check_right_diag)
+        end
+
+        it "sends call to check only left diagonal" do
+          expect(gameover).to_not receive(:check_both_diags)
+          expect(gameover).to receive(:check_left_diag)
+          expect(gameover).to_not receive(:check_right_diag)
+          gameover.check_diagonals([2, 2], "@")
+        end
+
+        context "when check passes" do
+          before do
+            allow(gameover).to receive(:check_left_diag).and_return(true)
+          end
+
+          it "returns true" do
+            result = gameover.check_diagonals([2, 2], "@")
+            expect(result).to be_truthy
+          end
+        end
+
+        context "when check fails" do
+          before do
+            allow(gameover).to receive(:check_left_diag).and_return(false)
+          end
+
+          it "returns false" do
+            result = gameover.check_diagonals([2, 2], "@")
+            expect(result).to be_falsy
+          end
+        end
+      end
+
+      context "when move is on right diagonal" do
+        before do
+          allow(gameover).to receive(:check_both_diags)
+          allow(gameover).to receive(:check_left_diag)
+          allow(gameover).to receive(:check_right_diag)
+        end
+
+        it "sends call to check only right diagonal" do
+          expect(gameover).to_not receive(:check_both_diags)
+          expect(gameover).to_not receive(:check_left_diag)
+          expect(gameover).to receive(:check_right_diag)
+          gameover.check_diagonals([0, 2], "@")
+        end
+
+        context "when check passes" do
+          before do
+            allow(gameover).to receive(:check_right_diag).and_return(true)
+          end
+
+          it "returns true" do
+            result = gameover.check_diagonals([0, 2], "@")
+            expect(result).to be_truthy
+          end
+        end
+
+        context "when check fails" do
+          before do
+            allow(gameover).to receive(:check_right_diag).and_return(false)
+          end
+
+          it "returns false" do
+            result = gameover.check_diagonals([0, 2], "@")
+            expect(result).to be_falsy
+          end
+        end
+      end
+    end
   end
 end
