@@ -226,4 +226,72 @@ describe GameoverChecker do
       end
     end
   end
+
+  context "#check_both_diags" do
+    context "when left diagonal passes" do
+      before do
+        allow(gameover).to receive(:check_left_diag).and_return(true)
+        allow(gameover).to receive(:check_right_diag)
+      end
+
+      it "calls check_left" do
+        expect(gameover).to receive(:check_left_diag)
+        gameover.check_both_diags("@")
+      end
+
+      it "doesn't call check_right" do
+        expect(gameover).to_not receive(:check_right_diag)
+        gameover.check_both_diags("@")
+      end
+
+      it "returns true" do
+        result = gameover.check_both_diags("@")
+        expect(result).to be_truthy
+      end
+    end
+
+    context "when left diagonal fails and right passes" do
+      before do
+        allow(gameover).to receive(:check_left_diag).and_return(false)
+        allow(gameover).to receive(:check_right_diag).and_return(true)
+      end
+
+      it "calls check_left" do
+        expect(gameover).to receive(:check_left_diag)
+        gameover.check_both_diags("@")
+      end
+
+      it "calls check_right" do
+        expect(gameover).to receive(:check_right_diag)
+        gameover.check_both_diags("@")
+      end
+
+      it "returns true" do
+        result = gameover.check_both_diags("@")
+        expect(result).to be_truthy
+      end
+    end
+
+    context "when left diagonal fails and right fails" do
+      before do
+        allow(gameover).to receive(:check_left_diag).and_return(false)
+        allow(gameover).to receive(:check_right_diag).and_return(false)
+      end
+
+      it "calls check_left" do
+        expect(gameover).to receive(:check_left_diag)
+        gameover.check_both_diags("@")
+      end
+
+      it "calls check_right" do
+        expect(gameover).to receive(:check_right_diag)
+        gameover.check_both_diags("@")
+      end
+
+      it "returns false" do
+        result = gameover.check_both_diags("@")
+        expect(result).to be_falsy
+      end
+    end
+  end
 end
