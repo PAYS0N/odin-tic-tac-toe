@@ -95,7 +95,8 @@ describe Player do
         end
 
         it "prints twice" do
-          expect(player_validation).to receive(:puts).twice
+          expect(player_validation).to receive(:puts).with("get input")
+          expect(player_validation).to receive(:puts).with("Invalid, try again.")
           player_validation.verify_input("get input")
         end
 
@@ -112,7 +113,8 @@ describe Player do
         end
 
         it "prints n+1 times" do
-          expect(player_validation).to receive(:puts).exactly(6).times
+          expect(player_validation).to receive(:puts).with("get input")
+          expect(player_validation).to receive(:puts).with("Invalid, try again.").exactly(5).times
           player_validation.verify_input("get input")
         end
 
