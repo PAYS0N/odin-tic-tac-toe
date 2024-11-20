@@ -294,4 +294,52 @@ describe GameoverChecker do
       end
     end
   end
+
+  context "#check_left_diag" do
+    context "when left diag is the passed char" do
+      before do
+        gameover.instance_variable_set(:@game_state, [["@"], ["", "@"], ["", "", "@"]])
+      end
+
+      it "returns true" do
+        result = gameover.check_left_diag("@")
+        expect(result).to be_truthy
+      end
+    end
+
+    context "when left diag is not the passed char" do
+      before do
+        gameover.instance_variable_set(:@game_state, [["@"], ["", "X"], ["", "", "@"]])
+      end
+
+      it "returns false" do
+        result = gameover.check_left_diag("@")
+        expect(result).to be_falsy
+      end
+    end
+  end
+
+  context "#check_right_diag" do
+    context "when right diag is the passed char" do
+      before do
+        gameover.instance_variable_set(:@game_state, [["", "", "@"], ["", "@"], ["@"]])
+      end
+
+      it "returns true" do
+        result = gameover.check_right_diag("@")
+        expect(result).to be_truthy
+      end
+    end
+
+    context "when right diag is not the passed char" do
+      before do
+        gameover.instance_variable_set(:@game_state, [["", "", "@"], ["", "X"], ["@"]])
+      end
+
+      it "returns false" do
+        result = gameover.check_right_diag("@")
+        expect(result).to be_falsy
+      end
+    end
+  end
 end
